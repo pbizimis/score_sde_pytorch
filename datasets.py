@@ -138,7 +138,7 @@ def get_dataset(config, uniform_dequantization=False, evaluation=False):
         img = tf.image.convert_image_dtype(img, tf.float32)
         return img
 
-  elif config.data.dataset in ['FFHQ', 'CelebAHQ']:
+  elif config.data.dataset in ['FFHQ', 'CelebAHQ', 'CUSTOM']:
     dataset_builder = tf.data.TFRecordDataset(config.data.tfrecords_path)
     train_split_name = eval_split_name = 'train'
 
@@ -147,7 +147,7 @@ def get_dataset(config, uniform_dequantization=False, evaluation=False):
       f'Dataset {config.data.dataset} not yet supported.')
 
   # Customize preprocess functions for each dataset.
-  if config.data.dataset in ['FFHQ', 'CelebAHQ']:
+  if config.data.dataset in ['FFHQ', 'CelebAHQ', 'CUSTOM']:
     def preprocess_fn(d):
       sample = tf.io.parse_single_example(d, features={
         'shape': tf.io.FixedLenFeature([3], tf.int64),
