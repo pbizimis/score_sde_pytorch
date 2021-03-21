@@ -18,7 +18,6 @@
 import jax
 import tensorflow as tf
 import tensorflow_datasets as tfds
-import os
 
 
 def get_data_scaler(config):
@@ -71,12 +70,10 @@ def central_crop(image, size):
 
 def get_dataset(config, uniform_dequantization=False, evaluation=False):
   """Create data loaders for training and evaluation.
-
   Args:
     config: A ml_collection.ConfigDict parsed from config files.
     uniform_dequantization: If `True`, add uniform dequantization to images.
     evaluation: If `True`, fix number of epochs to 1.
-
   Returns:
     train_ds, eval_ds, dataset_builder.
   """
@@ -140,8 +137,7 @@ def get_dataset(config, uniform_dequantization=False, evaluation=False):
         return img
 
   elif config.data.dataset in ['FFHQ', 'CelebAHQ', 'CUSTOM']:
-    list_of_paths = [os.path.join(config.data.tfrecords_path, x) for x in os.listdir(config.data.tfrecords_path)]
-    dataset_builder = tf.data.TFRecordDataset(list_of_paths)
+    dataset_builder = tf.data.TFRecordDataset(config.data.tfrecords_path)
     train_split_name = eval_split_name = 'train'
 
   else:
