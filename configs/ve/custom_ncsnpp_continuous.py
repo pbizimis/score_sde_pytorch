@@ -36,6 +36,7 @@ def get_config():
   data = config.data
   data.dataset = 'CUSTOM'
   data.image_size = 128
+  training.batch_size = 16
   data.tfrecords_path = "/content/drive/MyDrive/Training/tf_dataset/tf_dataset-r07.tfrecords"
 
 
