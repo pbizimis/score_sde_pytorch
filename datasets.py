@@ -18,6 +18,7 @@
 import jax
 import tensorflow as tf
 import tensorflow_datasets as tfds
+import os
 
 
 def get_data_scaler(config):
@@ -139,7 +140,8 @@ def get_dataset(config, uniform_dequantization=False, evaluation=False):
         return img
 
   elif config.data.dataset in ['FFHQ', 'CelebAHQ', 'CUSTOM']:
-    dataset_builder = tf.data.TFRecordDataset(config.data.tfrecords_path)
+    list_of_paths = [os.path.join(config.data.tfrecords_path, x) for x in os.listdir(config.data.tfrecords_path)]
+    dataset_builder = tf.data.TFRecordDataset(list_of_paths)
     train_split_name = eval_split_name = 'train'
 
   else:
